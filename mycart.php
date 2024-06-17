@@ -13,7 +13,7 @@ session_start();
 </head>
 <body>
     <header>
-        <img src="img/logo2.png" alt="Logo">
+        <img src="img/logo2.png" height="50px" alt="logo2">
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
