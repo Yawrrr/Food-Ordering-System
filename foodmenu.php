@@ -8,6 +8,7 @@ session_start();
 if (!isset($_SESSION["cart"])) {
     $_SESSION["cart"] = [];
 }
+
 ?>
 <head>
     <meta charset="UTF-8">
@@ -15,6 +16,7 @@ if (!isset($_SESSION["cart"])) {
     <title>Food Menu</title>
     <link rel="stylesheet" href="css/foodmenu_style.css">
     <link rel="stylesheet" href="css/main.css">
+
 </head>
 <body>
     <header>
@@ -22,7 +24,9 @@ if (!isset($_SESSION["cart"])) {
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
-            <a href="myOrder.php">My Orders</a>
+            <a href="myorders.php">My Orders</a>
+            <a href="logout.php">Logout</a>
+
         </nav>
         <div class="profile-icon">👤</div>
     </header>
@@ -96,6 +100,7 @@ if (!isset($_SESSION["cart"])) {
             </div>
         </div>
     </div>
+    <script src="js/fetch_user_session.js"></script>
     <script src="js/foodmenu_script.js"></script>
 </body>
 </html>

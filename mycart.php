@@ -13,11 +13,13 @@ session_start();
 </head>
 <body>
     <header>
-        <img src="img/logo2.png" height="50px" alt="logo2">
+    <img src="img/logo2.png" height="50px" alt="logo2">
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
-            <a href="muOrder.php">My Orders</a>
+            <a href="myOrder.php">My Orders</a>
+            <a href="logout.php">Logout</a>
+
         </nav>
         <div class="profile-icon" alt="Profile">👤</div>
     </header>
