@@ -1,5 +1,5 @@
 <?php
-include("connection.php");
+include("../connection.php");
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -7,7 +7,7 @@ if (isset($_GET['id'])) {
     // Retrieve the image file name before deleting the record
     $result = $conn->query("SELECT image FROM menu_items WHERE id=$id");
     $menu_item = $result->fetch_assoc();
-    $image_path = "img/foodmenu/" . $menu_item['image'];
+    $image_path = "../img/foodmenu/" . $menu_item['image'];
 
     // Delete the image file from the server
     if (file_exists($image_path)) {

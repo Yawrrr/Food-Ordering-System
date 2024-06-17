@@ -1,7 +1,5 @@
 <?php
-include('connection.php');
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
+include('../connection.php');
 
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
@@ -19,7 +17,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     if (!empty($image)) {
         // Image upload path
-        $target_dir = "img/foodmenu/";
+        $target_dir = "../img/foodmenu/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
         if (move_uploaded_file($_FILES["image"]["tmp_name"], $target_file)) {
             // If the upload is successful, set the new image name
@@ -50,8 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Menu Item</title>
-    <link rel="stylesheet" href="css/add_food.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../css/add_food.css">
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <body>
     <div class="container">

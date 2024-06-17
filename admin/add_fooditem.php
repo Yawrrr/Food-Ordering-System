@@ -1,5 +1,5 @@
 <?php
-include("connection.php");
+include("../connection.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = $_POST['category'];
@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $description = $_POST['description'];
 
     // Image upload path
-    $target_dir = "img/foodmenu/";
+    $target_dir = "../img/foodmenu/";
     $target_file = $target_dir . basename($_FILES["image"]["name"]);
 
     // Move the uploaded file to the server
@@ -36,18 +36,18 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Menu Item</title>
-    <link rel="stylesheet" href="css/add_food.css">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="../css/add_food.css">
+    <link rel="stylesheet" href="../css/main.css">
 </head>
 <header>
-        <img src="img/logo2.png" height="50px" alt="logo2">
+        <img src="../img/logo2.png" height="50px" alt="logo2">
         <nav>
             <a href="">DASHBOARD</a>
             <a href="">USER</a>
             <a href="">FOOD</a>
             <a href="">ORDER</a>
         </nav>
-        <div class="profile-icon">👤</div>
+        <div class="profile-icon" alt="Profile">👤</div>
     </header>
 <body>
     <div class="container">
@@ -90,7 +90,7 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
                         <td><?php echo $row['category']; ?></td>
                         <td><?php echo $row['name']; ?></td>
                         <td><?php echo $row['price']; ?></td>
-                        <td><img src="img/foodmenu/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="50"></td>
+                        <td><img src="../img/foodmenu/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="50"></td>
                         <td><?php echo $row['description']; ?></td>
                         <td>
                             <a href="edit_menu.php?id=<?php echo $row['id']; ?>">Edit</a> |
