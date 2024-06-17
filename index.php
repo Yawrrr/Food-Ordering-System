@@ -1,8 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <?php
-require_once("config.php");  
+require_once("connection.php");  
 error_reporting(0);  
 session_start(); 
 ?>
@@ -17,9 +16,10 @@ session_start();
 </head>
 
 <body class="home">
+  <header>
   <div class="container-fluid px-5 bg-primary">
     <nav class="navbar navbar-expand-sm navbar-light bg-body-light">
-      <a href="#" class="navbar-brand"> SIXG CAFE </a>
+      <a href="index.php" class="navbar-brand"> SIXG CAFE </a>
       <button 
         class="navbar-toggler"
         type="button"
@@ -41,16 +41,16 @@ session_start();
           </li>
           
           <?php
-          if ($_SESSION['username']) {
+          if (!empty($_SESSION['username'])) {
             echo '<li class="nav-item">
                     <a href="#" class="nav-link text-light">Cart</a>
                   </li>
             <li class="nav-item">
-                    <a href="#" class="nav-link text-light">Logout</a>
+                    <a href="logout.php" class="nav-link text-light">Logout</a>
                   </li>';
           } else {
             echo '<li class="nav-item">
-                    <a href="#" class="nav-link text-light">Login</a>
+                    <a href="login.php" class="nav-link text-light">Login</a>
                   </li>';
           }
           ?>
@@ -60,5 +60,5 @@ session_start();
       </div>
     </nav>
   </div>
-
+</header>
 </body>
