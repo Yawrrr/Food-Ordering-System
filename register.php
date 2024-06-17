@@ -1,7 +1,7 @@
 <?php
 require_once("connection.php");
-error_reporting(0);  
-session_start(); 
+error_reporting(0);
+session_start();
 
 if($_SERVER["REQUEST_METHOD"] == "POST") {
   if(empty($_POST['f_name']) || 
@@ -10,43 +10,37 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     empty($_POST['phone'])||
     empty($_POST['password'])||
     empty($_POST['cpassword']) ||
-    empty($_POST['cpassword'])){
+    empty($_POST['username'])) {
     $message = "Please fill all the fields!";
-    }
-  else {
-    $check_username = mysqli_query($conn, "SELECT username FROM users WHERE username = '".$_POST['username']."'");
-    $check_email = mysqli_query($conn, "SELECT email FROM users WHERE email = '".$_POST['email']."'");
+  } else {
+    $check_username = mysqli_query($conn, "SELECT username FROM user WHERE username = '".$_POST['username']."'");
+    $check_email = mysqli_query($conn, "SELECT email FROM user WHERE email = '".$_POST['email']."'");
 
-    	
-	if($_POST['password'] != $_POST['cpassword']){  
-        echo "<script>alert('Password not match');</script>"; 
-    }
-    elseif(strlen($_POST['password']) < 6)  
-    {
-    echo "<script>alert('Password Must be >=6');</script>"; 
-    }
-    elseif(strlen($_POST['phone']) < 10)  
-    {
-    echo "<script>alert('Invalid phone number!');</script>"; 
-    }
-
-    elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
-    {
-        echo "<script>alert('Invalid email address please type a valid email!');</script>"; 
-    }
-    elseif(mysqli_num_rows($check_username) > 0) 
-    {
-    echo "<script>alert('Username Already exists!');</script>"; 
-    }
-    elseif(mysqli_num_rows($check_email) > 0) 
-    {
-    echo "<script>alert('Email Already exists!');</script>"; 
-    }
-    else{
-    $mql = "insert into users(username,f_name,l_name,email,phone,password,address) VALUES('".$_POST['username']."','".$_POST['f_name']."','".$_POST['l_name']."','".$_POST['email']."','".$_POST['phone']."','".($_POST['password'])."','".$_POST['address']."')";
-    mysqli_query($conn, $mql);
-
-    header("refresh:0.1;url=login.php");
+    if($_POST['password'] != $_POST['cpassword']) {
+      $message = "Passwords do not match!";
+    } elseif(strlen($_POST['password']) < 6) {
+      $message = "Password must be at least 6 characters!";
+    } elseif(strlen($_POST['phone']) < 10) {
+      $message = "Invalid phone number!";
+    } elseif (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+      $message = "Invalid email address!";
+    } elseif(mysqli_num_rows($check_username) > 0) {
+      $message = "Username already exists!";
+    } elseif(mysqli_num_rows($check_email) > 0) {
+      $message = "Email already exists!";
+    } else {
+      // $hashed_password = password_hash($_POST['password'], PASSWORD_DEFAULT);
+      // $sql = "INSERT INTO user (username, f_name, l_name, email, phone, password, address) 
+      //         VALUES ('".$_POST['username']."', '".$_POST['f_name']."', '".$_POST['l_name']."', '".$_POST['email']."', '".$_POST['phone']."', '".$hashed_password."', '".$_POST['address']."')";
+      $password = $_POST['password'];
+      $sql = "INSERT INTO user (username, f_name, l_name, email, phone, password, address) 
+              VALUES ('".$_POST['username']."', '".$_POST['f_name']."', '".$_POST['l_name']."', '".$_POST['email']."', '".$_POST['phone']."', '".$password."', '".$_POST['address']."')";
+              
+      if(mysqli_query($conn, $sql)) {
+        header("Location: login.php");
+      } else {
+        $message = "Error: " . $sql . "<br>" . mysqli_error($conn);
+      }
     }
   }
 }

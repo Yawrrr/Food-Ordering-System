@@ -7,18 +7,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  $sql = "SELECT * FROM users WHERE username = '".$username."' AND password = '".$password."'";
-
-
+  $sql = "SELECT * FROM user WHERE username = '$username' AND password = '$password'";
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
 
-  if($row['role'] == 'admin') {
+  if($row) {
     $_SESSION['username'] = $row['username'];
-    header("Location: admin/add_fooditem.php");
-  } elseif($row['role'] == 'user'){
-    $_SESSION['username'] = $row['username'];
-    header("Location: foodmenu.php");
+    $_SESSION['role'] = $row['role']; // Store the role in the session
+
+    if($row['role'] == 'admin') {
+      header("Location: admin/add_fooditem.php");
+      exit(); // Make sure to exit after the header redirection
+    } elseif($row['role'] == 'user'){
+      header("Location: foodmenu.php");
+      exit(); // Make sure to exit after the header redirection
+    }
   } else {
     $message = "Invalid username or password!";
   }
