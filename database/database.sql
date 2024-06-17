@@ -72,18 +72,12 @@ CREATE TABLE user_cart_items (
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
--- new table for orders
-CREATE TABLE user_orders (
+CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    menu_items_id INT,
-    item_name VARCHAR(100) NOT NULL,
-    item_quantity INT NOT NULL,
+    --user_id INT NOT NULL,  -- Assuming you have a users table and user_id is a foreign key
+    item VARCHAR(100) NOT NULL,
+    quantity INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
-    order_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    status varchar(222) DEFAULT 'preparing',
-    user_id INT,
-    FOREIGN KEY (menu_items_id) REFERENCES menu_items(id),
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    date DATETIME NOT NULL,
+    status ENUM('Pending', 'Served', 'Cancelled') DEFAULT 'Pending'
 );
-
-
