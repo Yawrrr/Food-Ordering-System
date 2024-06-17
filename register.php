@@ -64,12 +64,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </head>
+<style>
+    body {
+      background-image: url('img/bckground.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .container-fluid {
+      background-color: rgb(253,251,122);
+    }
+  </style>
 
 <body>
 <header>
-  <div class="container-fluid px-5 bg-primary">
-    <nav class="navbar navbar-expand-sm navbar-light bg-body-light">
-      <a href="index.php" class="navbar-brand"> SIXG CAFE </a>
+  <div class="container-fluid">
+    <nav class="navbar">
+      <img src="img/logo2.png" alt="Logo" height="50px" alt="logo2">
       <button 
         class="navbar-toggler"
         type="button"
@@ -84,23 +94,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="collapse navbar-collapse " id="toggleMobileMenu">
         <ul class="navbar-nav ms-auto ">
           <li class="nav-item">
-            <a href="index.php" class="nav-link text-light">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link text-light">Restaurants</a>
+            <a href="index.php" class="nav-link">Home</a>
           </li>
           
           <?php
           if (!empty($_SESSION['username'])) {
             echo '<li class="nav-item">
-                    <a href="#" class="nav-link text-light">Cart</a>
+                    <a href="#" class="nav-link">Cart</a>
                   </li>
             <li class="nav-item">
-                    <a href="logout.php" class="nav-link text-light">Logout</a>
+                    <a href="logout.php" class="nav-link">Logout</a>
                   </li>';
           } else {
             echo '<li class="nav-item">
-                    <a href="login.php" class="nav-link text-light">Login</a>
+                    <a href="login.php" class="nav-link">Login</a>
                   </li>';
           }
           ?>
@@ -111,7 +118,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
   </div>
 </header>
-<section class="h-100" style="background-color: #9A616D;">
+<section class="h-100" src="img/bckground.jpg">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col">
@@ -185,7 +192,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="d-flex justify-content-end pt-3">
                   <button  type="button" data-mdb-button-init data-mdb-ripple-init class="btn btn-light btn-lg">Reset all</button>
-                  <button  type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg ms-2">Register</button>
+                  <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-dark btn-lg ms-2">Register</button>
+
                 </div>
                 <span style="color:red;"><?php echo $message; ?></span>
 
@@ -201,5 +209,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       </div>
     </div>
   </div>
+  
 </section>
 </body>
+
+

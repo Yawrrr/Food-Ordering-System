@@ -7,17 +7,18 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   $username = $_POST['username'];
   $password = $_POST['password'];
 
-  $sql = "select * from users where username = '".$username."' AND '".$password."' ";
+  $sql = "SELECT * FROM users WHERE username = '".$username."' AND password = '".$password."'";
+
 
   $result = mysqli_query($conn, $sql);
   $row = mysqli_fetch_array($result);
 
   if($row['role'] == 'admin') {
     $_SESSION['username'] = $row['username'];
-    header("Location: admin.php");
+    header("Location: admin/add_fooditem.php");
   } elseif($row['role'] == 'user'){
     $_SESSION['username'] = $row['username'];
-    header("Location: index.php");
+    header("Location: foodmenu.php");
   } else {
     $message = "Invalid username or password!";
   }
@@ -34,18 +35,22 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   <title>Login Page</title>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <style>
-    
-  </style>
-
 </head>
-
+<style>
+    body {
+      background-image: url('img/bckground.jpg');
+      background-size: cover;
+      background-position: center;
+    }
+    .container-fluid {
+      background-color: rgb(253,251,122);
+    }
+  </style>
 <body>
 <header>
-  <div class="container-fluid px-5 bg-primary">
-    <nav class="navbar navbar-expand-sm navbar-light bg-body-light">
-      <a href="index.php" class="navbar-brand"> SIXG CAFE </a>
+  <div class="container-fluid">
+    <nav class="navbar">
+      <img src="img/logo2.png" alt="Logo" height="50px" alt="logo2">
       <button 
         class="navbar-toggler"
         type="button"
@@ -60,23 +65,20 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
       <div class="collapse navbar-collapse " id="toggleMobileMenu">
         <ul class="navbar-nav ms-auto ">
           <li class="nav-item">
-            <a href="index.php" class="nav-link text-light">Home</a>
-          </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link text-light">Restaurants</a>
+            <a href="index.php" class="nav-link">Home</a>
           </li>
           
           <?php
           if (!empty($_SESSION['u_id'])) {
             echo '<li class="nav-item">
-                    <a href="#" class="nav-link text-light">Cart</a>
+                    <a href="#" class="nav-link">Cart</a>
                   </li>
-            <li class="nav-item">
-                    <a href="logout.php" class="nav-link text-light">Logout</a>
+                  <li class="nav-item">
+                    <a href="logout.php" class="nav-link">Logout</a>
                   </li>';
           } else {
             echo '<li class="nav-item">
-                    <a href="login.php" class="nav-link text-light">Login</a>
+                    <a href="login.php" class="nav-link">Login</a>
                   </li>';
           }
           ?>
@@ -87,7 +89,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     </nav>
   </div>
 </header>
-<section class="v-100" style="background-color: #9A616D;">
+<section class="v-100">
   <div class="container py-5 h-100">
     <div class="row d-flex justify-content-center align-items-center h-100">
       <div class="col col-xl-10">
@@ -110,8 +112,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
                   <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h5>
 
                   <div data-mdb-input-init class="form-outline mb-4">
+                  <label class="form-label" for="form2Example17">Username</label>
                     <input type="text" name="username" id="form2Example17" class="form-control form-control-lg" required>
-                    <label class="form-label" for="form2Example17">Username</label>
                   </div>
 
                   <div data-mdb-input-init class="form-outline mb-4">
