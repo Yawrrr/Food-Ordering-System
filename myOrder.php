@@ -4,7 +4,7 @@ include("connection.php");
 // Fetch orders grouped by timestamp
 $sql = "SELECT item, quantity, price, date, status 
         FROM orders 
-        ORDER BY date";
+        ORDER BY date DESC";
 $result = $conn->query($sql);
 
 $orders = [];
