@@ -27,16 +27,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-if (isset($_GET['delete'])) {
-    $id = $_GET['delete'];
-    $sql = "DELETE FROM menu_items WHERE id=$id";
-    if ($conn->query($sql) === TRUE) {
-        echo "Menu item deleted successfully";
-    } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
-    }
-}
-
 $menu_items = $conn->query("SELECT * FROM menu_items");
 ?>
 
@@ -104,7 +94,7 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
                         <td><?php echo $row['description']; ?></td>
                         <td>
                             <a href="edit_menu.php?id=<?php echo $row['id']; ?>">Edit</a> |
-                            <a href="add_menu.php?delete=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+                            <a href="delete_fooditem.php?id=<?php echo $row['id']; ?>" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
                         </td>
                     </tr>
                 <?php } ?>
