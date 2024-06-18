@@ -46,6 +46,7 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
             <a href="">USER</a>
             <a href="">FOOD</a>
             <a href="">ORDER</a>
+            <a href="../logout.php">Logout</a>
         </nav>
         <div class="profile-icon" alt="Profile">👤</div>
     </header>
