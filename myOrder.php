@@ -1,11 +1,23 @@
 <?php
+session_start();
 include("connection.php");
 
-// Fetch orders grouped by timestamp
+if (!isset($_SESSION['user_id'])) {
+    header("Location: login.php");
+    exit();
+}
+
+$user_id = $_SESSION['user_id'];
+
 $sql = "SELECT item, quantity, price, date, status 
         FROM orders 
+        WHERE user_id = ?
         ORDER BY date DESC";
-$result = $conn->query($sql);
+
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$result = $stmt->get_result();
 
 $orders = [];
 while ($row = $result->fetch_assoc()) {
