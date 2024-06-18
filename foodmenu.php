@@ -30,7 +30,7 @@ if (!isset($_SESSION["cart"])) {
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
-            <a href="myorders.php">My Orders</a>
+            <a href="myOrder.php">My Orders</a>
             <a href="logout.php">Logout</a>
         </nav>
         <div class="profile-icon">👤</div>
