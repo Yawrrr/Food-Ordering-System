@@ -17,18 +17,6 @@ CREATE TABLE user (
 INSERT INTO user (role, username, f_name, l_name, email, phone, password, address)
 VALUES ('admin', '6Gadmin', 'Jocelyn', 'Aslan', 'admin@gmail.com', '1234567890', '1234', 'M01, KTDI, 80990, Johor Bahru, Johor');
 
-
--- -- TODO: Update accorrdingly
--- CREATE TABLE user (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     name VARCHAR(255),
---     email VARCHAR(100),
---     password VARCHAR(100)
--- );
--- INSERT INTO user (name, email, password) VALUES
--- ('Tan Yun Xi', 'yunxi@gmail.com', 'asdf123');
-
-
 CREATE TABLE menu_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category VARCHAR(50),
@@ -66,18 +54,20 @@ INSERT INTO menu_items (category, name, price, image, description) VALUES
 CREATE TABLE user_cart_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     menu_items_id INT,
-    user_id INT,
+    user_id INT NOT NULL,
     quantity INT,
+    cart_date TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (menu_items_id) REFERENCES menu_items(id),
     FOREIGN KEY (user_id) REFERENCES user(id)
 );
 
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    --user_id INT NOT NULL,  -- Assuming you have a users table and user_id is a foreign key
+    user_id INT NOT NULL,
     item VARCHAR(100) NOT NULL,
     quantity INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     date DATETIME NOT NULL,
-    status ENUM('Pending', 'Served', 'Cancelled') DEFAULT 'Pending'
+    status ENUM('Pending', 'Served', 'Cancelled') DEFAULT 'Pending',
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
