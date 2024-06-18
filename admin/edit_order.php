@@ -71,6 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <input type="submit" value="Update Menu Item">
         </form>
+        <a href="all_order.php">Return to All Orders</a>
     </div>
 </body>
 </html>
