@@ -64,8 +64,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="edit_menu.php?id=<?php echo $menu_item['id']; ?>" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?php echo $menu_item['id']; ?>">
             <label for="category">Category:</label>
-            <input type="text" id="category" name="category" value="<?php echo $menu_item['category']; ?>" required>
-
+            <select id="category" name="category" required>
+                <option value="pasta" <?php if ($menu_item['category'] == 'pasta') echo 'selected'; ?>>pasta</option>
+                <option value="burgers" <?php if ($menu_item['category'] == 'burgers') echo 'selected'; ?>>burgers</option>
+                <option value="desserts" <?php if ($menu_item['category'] == 'desserts') echo 'selected'; ?>>desserts</option>
+                <option value="beverages" <?php if ($menu_item['category'] == 'beverages') echo 'selected'; ?>>beverages</option>
+            </select>
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" value="<?php echo $menu_item['name']; ?>" required>
 

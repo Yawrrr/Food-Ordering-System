@@ -23,7 +23,7 @@ label {
     font-weight: bold;
 }
 
-input[type="text"], textarea, input[type="file"] {
+input[type="text"], textarea, input[type="file"], select#category {
     margin-bottom: 20px;
     padding: 10px;
     font-size: 16px;

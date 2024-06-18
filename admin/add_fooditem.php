@@ -26,13 +26,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 VALUES ('$category', '$name', '$price', '$image', '$description')";
 
         if ($conn->query($sql) === TRUE) {
-            echo "New menu item added successfully";
+            $_SESSION['success_message'] = "New menu item added successfully";
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            $_SESSION['error_message'] = "Error: " . $sql . "<br>" . $conn->error;
         }
     } else {
-        echo "Sorry, there was an error uploading your file.";
+        $_SESSION['error_message'] = "Sorry, there was an error uploading your file.";
     }
+    header("Location: add_fooditem.php");
+    exit();
 }
 
 $menu_items = $conn->query("SELECT * FROM menu_items");
@@ -63,7 +65,13 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
         <h2>Add Menu Item</h2>
         <form action="add_fooditem.php" method="post" enctype="multipart/form-data">
             <label for="category">Category:</label>
-            <input type="text" id="category" name="category" required>
+            <select id="category" name="category" required>
+                <option value="" default>Please select a category</option>
+                <option value="pasta">pasta</option>
+                <option value="burgers">burgers</option>
+                <option value="desserts">desserts</option>
+                <option value="beverages">beverages</option>
+            </select>
 
             <label for="name">Name:</label>
             <input type="text" id="name" name="name" required>
@@ -110,5 +118,15 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
             </tbody>
         </table>
     </div>
+<?php
+if (isset($_SESSION['success_message'])) {
+    echo "<script>alert('" . $_SESSION['success_message'] . "');</script>";
+    unset($_SESSION['success_message']);
+}
+if (isset($_SESSION['error_message'])) {
+    echo "<script>alert('" . $_SESSION['error_message'] . "');</script>";
+    unset($_SESSION['error_message']);
+}
+?>
 </body>
 </html>
