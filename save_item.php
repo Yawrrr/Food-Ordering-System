@@ -1,34 +1,30 @@
 <?php
-// Database configuration
-$servername = "localhost";
-$username = "root";
-$password = "";
-$dbname = "food_menu";
+require_once("connection.php");
+session_start(); 
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo "You must be logged in to place an order.";
+    header("Location: login.php");
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $user_id = $_SESSION['user_id'];
     $item_id = $_POST['itemId'];
     $quantity = $_POST['quantity'];
 
     // Check if the item already exists in the cart
-    $check_sql = "SELECT quantity FROM user_cart_items WHERE menu_items_id = ?";
+    $check_sql = "SELECT quantity FROM user_cart_items WHERE menu_items_id = ? AND user_id = ?";
     $check_stmt = $conn->prepare($check_sql);
-    $check_stmt->bind_param("s", $item_id);
+    $check_stmt->bind_param("is", $user_id, $item_id);
     $check_stmt->execute();
     $check_stmt->store_result();
 
     if ($check_stmt->num_rows > 0) {
         // Item exists, update the quantity
-        $update_sql = "UPDATE user_cart_items SET quantity = quantity + ? WHERE menu_items_id = ?";
+        $update_sql = "UPDATE user_cart_items SET quantity = quantity + ? WHERE menu_items_id = ? AND user_id = ?";
         $update_stmt = $conn->prepare($update_sql);
-        $update_stmt->bind_param("is", $quantity, $item_id);
+        $update_stmt->bind_param("iis", $quantity, $user_id, $item_id);
 
         if ($update_stmt->execute()) {
             echo "Record updated successfully";
@@ -39,9 +35,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $update_stmt->close();
     } else {
         // Item does not exist, insert a new record
-        $insert_sql = "INSERT INTO user_cart_items (menu_items_id, quantity) VALUES (?, ?)";
+        $insert_sql = "INSERT INTO user_cart_items (menu_items_id, user_id, quantity) VALUES (?, ?, ?)";
         $insert_stmt = $conn->prepare($insert_sql);
-        $insert_stmt->bind_param("si", $item_id, $quantity);
+        $insert_stmt->bind_param("sii", $item_id, $user_id, $quantity);
 
         if ($insert_stmt->execute()) {
             echo "New record created successfully";

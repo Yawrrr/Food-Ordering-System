@@ -1,8 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
-include("connection.php");
+require_once("connection.php");
 session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo "You must be logged in to place an order.";
+    header("Location: login.php");
+}
 
 // new session, check whether got set session cart, if no, create new session cart
 if (!isset($_SESSION["cart"])) {
@@ -26,7 +32,6 @@ if (!isset($_SESSION["cart"])) {
             <a href="mycart.php">Cart</a>
             <a href="myorders.php">My Orders</a>
             <a href="logout.php">Logout</a>
-
         </nav>
         <div class="profile-icon">👤</div>
     </header>
@@ -48,19 +53,6 @@ if (!isset($_SESSION["cart"])) {
         </div>
         <div class="menu-items" id="menu-items">
         <?php
-            $servername = "localhost";
-            $username = "root";
-            $password = "";
-            $dbname = "food_menu";
-
-            // Create connection
-            $conn = new mysqli($servername, $username, $password, $dbname);
-
-            // Check connection
-            if ($conn->connect_error) {
-                die("Connection failed: " . $conn->connect_error);
-            }
-
             // Updated SQL query to include description
             $sql = "SELECT id, category, name, price, image, description FROM menu_items";
             $result = $conn->query($sql);

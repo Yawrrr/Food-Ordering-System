@@ -1,20 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <?php
+require_once("connection.php");
 session_start();
-include("connection.php");
-
-// Check for order success message
-if (isset($_SESSION['order_success'])) {
-    echo "<script>alert('" . $_SESSION['order_success'] . "');</script>";
-    unset($_SESSION['order_success']); // Clear success message
-}
-
-// Check for order error message
-if (isset($_SESSION['order_error'])) {
-    echo "<script>alert('" . $_SESSION['order_error'] . "');</script>";
-    unset($_SESSION['order_error']); // Clear error message
-}
 ?>
 <head>
     <meta charset="UTF-8">
@@ -25,11 +13,13 @@ if (isset($_SESSION['order_error'])) {
 </head>
 <body>
     <header>
-        <img src="img/logo2.png" height="50px" alt="logo2">
+    <img src="img/logo2.png" height="50px" alt="logo2">
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
             <a href="myOrder.php">My Orders</a>
+            <a href="logout.php">Logout</a>
+
         </nav>
         <div class="profile-icon" alt="Profile">👤</div>
     </header>
@@ -41,8 +31,8 @@ if (isset($_SESSION['order_error'])) {
                     <tr>
                         <th>Items</th>
                         <th>Price</th>
-                        <th>Quantity</th>
-                        <th>Action</th>
+                        <th>Qty</th>
+                        <th>Total</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -54,23 +44,32 @@ if (isset($_SESSION['order_error'])) {
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) { ?>
-                        <tr>
-                            <td>
-                                <div style="display: flex; align-items: center;">
-                                    <img src="img/foodmenu/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="50" style="margin-right: 10px;">
-                                    <div><?php echo $row['name']; ?></div>
-                                </div>
-                            </td>
-                            <td class="price">RM<?php echo number_format($row['price'], 2); ?></td>
-                            <td class="quantity"><?php echo $row['quantity']; ?></td>
-                            <td><a href="remove_from_cart.php?id=<?php echo $row['menu_items_id']; ?>" style="color: red; cursor: pointer;">Delete</a></td>
-                        </tr>
-                    <?php }} else { ?>
-                        <tr><td colspan='4'>Your cart is empty.</td></tr>
-                    <?php } ?>
+                        while ($row = $result->fetch_assoc()) {
+                            echo "<tr>";
+                            echo "<td>";
+                            echo "<div style='display: flex; align-items: center;'>";
+                            echo "<img src='img/foodmenu/{$row['image']}' alt='Food Image' style='margin-right: 10px;'>";
+                            echo "<div>";
+                            echo "<p style='margin-bottom: 5px;'>{$row['name']}</p>";
+                            echo "<a href='remove_from_cart.php?id={$row['menu_items_id']}' class='delete' style='color: red; cursor: pointer;'>Delete</a>";
+                            echo "</div>";
+                            echo "</div>";
+                            echo "</td>";
+                            echo "<td class='price'>RM " . number_format($row['price'], 2) . "</td>";
+                            echo "<td>{$row['quantity']}</td>";
+                            echo "<td class='item-total'>" . number_format($row['price'] * $row['quantity'], 2) . "</td>";
+                            echo "</tr>";
+                        }
+                    } else {
+                        echo "<tr><td colspan='4'>Your cart is empty.</td></tr>";
+                    }
+                    $conn->close();
+                    ?>
                 </tbody>
             </table>
+            <div class="cart-footer">
+                <p>Subtotal: RM <span id="subtotal"></span></p>
+            </div>
         </div>
         <div class="order-summary">
             <h3>ORDER SUMMARY</h3>
@@ -80,22 +79,25 @@ if (isset($_SESSION['order_error'])) {
                 <p>TOTAL</p>
                 <p>RM <span id="total"></span></p>
             </div>
-            <?php if ($result->num_rows > 0) { ?>
-                <a href="place_order.php" class="place-order-btn">Place Order</a>
-            <?php } ?>
+            <a href="#" class="place-order-btn">Place Order</a>
         </div>
     </div>
     <a href="foodmenu.php" class="continue-ordering">← Continue Ordering</a>
     <script>
-        function calculateTotals() {
+        function updateTotal(element) {
+            const row = element.closest('tr');
+            const price = parseFloat(row.querySelector('.price').textContent.replace('RM ', ''));
+            const qty = parseInt(element.value);
+            const itemTotal = row.querySelector('.item-total');
+            const newTotal = price * qty;
+            itemTotal.textContent = newTotal.toFixed(2);
+
             let subtotal = 0;
-            document.querySelectorAll('tbody tr').forEach(function (row) {
-                const priceText = row.querySelector('.price').textContent.replace('RM', '');
-                const price = parseFloat(priceText);
-                const quantity = parseInt(row.querySelector('.quantity').textContent);
-                subtotal += price * quantity;
+            document.querySelectorAll('.item-total').forEach(function (total) {
+                subtotal += parseFloat(total.textContent);
             });
 
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
             document.getElementById('summary-subtotal').textContent = subtotal.toFixed(2);
 
             const serviceTax = subtotal * 0.06;
@@ -105,7 +107,21 @@ if (isset($_SESSION['order_error'])) {
             document.getElementById('total').textContent = total.toFixed(2);
         }
 
-        window.onload = calculateTotals;
+        window.onload = function () {
+            let subtotal = 0;
+            document.querySelectorAll('.item-total').forEach(function (total) {
+                subtotal += parseFloat(total.textContent);
+            });
+
+            document.getElementById('subtotal').textContent = subtotal.toFixed(2);
+            document.getElementById('summary-subtotal').textContent = subtotal.toFixed(2);
+
+            const serviceTax = subtotal * 0.06;
+            document.getElementById('service-tax').textContent = serviceTax.toFixed(2);
+
+            const total = subtotal + serviceTax;
+            document.getElementById('total').textContent = total.toFixed(2);
+        }
     </script>
 </body>
 </html>

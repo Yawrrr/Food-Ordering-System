@@ -14,6 +14,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
   if($row) {
     $_SESSION['username'] = $row['username'];
     $_SESSION['role'] = $row['role']; // Store the role in the session
+    $_SESSION['user_id'] = $row['id'];
 
     if($row['role'] == 'admin') {
       header("Location: admin/add_fooditem.php");
