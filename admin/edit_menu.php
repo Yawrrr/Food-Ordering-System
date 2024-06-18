@@ -4,7 +4,12 @@ include('../connection.php');
 if (isset($_GET['id'])) {
     $id = $_GET['id'];
     $result = $conn->query("SELECT * FROM menu_items WHERE id=$id");
-    $menu_item = $result->fetch_assoc();
+    if ($result->num_rows > 0) {
+        $menu_item = $result->fetch_assoc();
+    } else {
+        echo "Menu item not found";
+        exit;
+    }
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -12,10 +17,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = $_POST['category'];
     $name = $_POST['name'];
     $price = $_POST['price'];
-    $image = $_FILES['image']['name'];
     $description = $_POST['description'];
 
-    if (!empty($image)) {
+    // Check if a new image is uploaded
+    if (!empty($_FILES['image']['name'])) {
         // Image upload path
         $target_dir = "../img/foodmenu/";
         $target_file = $target_dir . basename($_FILES["image"]["name"]);
@@ -39,8 +44,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
     header("Location: add_fooditem.php");
+    exit;
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -54,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container">
         <h2>Edit Menu Item</h2>
-        <form action="edit_menu.php" method="post" enctype="multipart/form-data">
+        <form action="edit_menu.php?id=<?php echo $menu_item['id']; ?>" method="post" enctype="multipart/form-data">
             <input type="hidden" name="id" value="<?php echo $menu_item['id']; ?>">
             <label for="category">Category:</label>
             <input type="text" id="category" name="category" value="<?php echo $menu_item['category']; ?>" required>
@@ -67,7 +74,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             <label for="image">Image:</label>
             <input type="file" id="image" name="image">
-            <img src="img/foodmenu/<?php echo $menu_item['image']; ?>" alt="<?php echo $menu_item['name']; ?>" width="50">
+            <?php if (!empty($menu_item['image'])): ?>
+                <img src="../img/foodmenu/<?php echo $menu_item['image']; ?>" alt="<?php echo $menu_item['name']; ?>" width="50">
+            <?php endif; ?>
 
             <label for="description">Description:</label>
             <textarea id="description" name="description" required><?php echo $menu_item['description']; ?></textarea>
