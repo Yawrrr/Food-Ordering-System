@@ -29,6 +29,8 @@ while ($row = $result->fetch_assoc()) {
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
             <a href="myOrder.php">My Orders</a>
+            <a href="logout.php">Logout</a>
+
         </nav>
         <div class="profile-icon" alt="Profile">👤</div>
 </header>
