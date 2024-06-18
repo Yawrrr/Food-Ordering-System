@@ -1,6 +1,14 @@
 <?php
 include("../connection.php");
 
+session_start();
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo "You must be logged in to place an order.";
+    header("Location: ../login.php");
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $category = $_POST['category'];
     $name = $_POST['name'];
