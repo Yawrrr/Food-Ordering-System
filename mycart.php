@@ -49,10 +49,11 @@ if (isset($_SESSION['order_error'])) {
                 </thead>
                 <tbody>
                     <?php
-                    // Retrieve cart items from the database
+                    $user_id = $_SESSION['user_id'];
                     $sql = "SELECT uc.menu_items_id, uc.quantity, mi.name, mi.price, mi.image 
                             FROM user_cart_items uc
-                            JOIN menu_items mi ON uc.menu_items_id = mi.id";
+                            JOIN menu_items mi ON uc.menu_items_id = mi.id
+                            WHERE uc.user_id = $user_id";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
