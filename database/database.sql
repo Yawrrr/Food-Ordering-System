@@ -68,6 +68,6 @@ CREATE TABLE orders (
     quantity INT NOT NULL,
     price DECIMAL(10, 2) NOT NULL,
     date DATETIME NOT NULL,
-    status ENUM('Pending', 'Served', 'Cancelled') DEFAULT 'Pending',
-    FOREIGN KEY (user_id) REFERENCES user(id)
+    status ENUM('Processing', 'Served', 'Cancelled') DEFAULT 'Processing',
+    FOREIGN KEY (user_id) REFERENCES user(id)
 );
