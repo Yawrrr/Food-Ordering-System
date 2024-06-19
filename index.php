@@ -6,6 +6,5 @@ error_reporting(0);
 session_start(); 
 
 header("Location: login.php");
-  exit();
+  exit();
 ?>
-

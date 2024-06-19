@@ -1,4 +1,5 @@
 <?php
+session_start();
 include('../connection.php');
 
 if (isset($_GET['id'])) {
@@ -7,7 +8,7 @@ if (isset($_GET['id'])) {
     if ($result->num_rows > 0) {
         $menu_item = $result->fetch_assoc();
     } else {
-        echo "Menu item not found";
+        $_SESSION['error_message'] = "Menu item not found";
         exit;
     }
 }
@@ -39,15 +40,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $sql = "UPDATE menu_items SET category='$category', name='$name', price='$price', image='$image', description='$description' WHERE id=$id";
 
     if ($conn->query($sql) === TRUE) {
-        echo "Menu item updated successfully";
+        $_SESSION['success_message'] = "Menu item updated successfully";
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        $_SESSION['error_message'] = "Error: " . $sql . "<br>" . $conn->error;
     }
     header("Location: add_fooditem.php");
     exit;
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
