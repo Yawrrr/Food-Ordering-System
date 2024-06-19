@@ -21,9 +21,9 @@ include("../connection.php");
     <img src="../img/logo2.png" height="50px" alt="logo2">
     <nav>
         <a href="">DASHBOARD</a>
-        <a href="">USER</a>
-        <a href="">FOOD</a>
-        <a href="">ORDER</a>
+        <a href="user_management.php">USER</a>
+        <a href="add_fooditem.php">FOOD</a>
+        <a href="all_order.php">ORDER</a>
         <a href="../logout.php">Logout</a>
     </nav>
     <div class="profile-icon" alt="Profile">👤</div>
