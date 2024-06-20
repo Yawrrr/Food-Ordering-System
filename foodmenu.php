@@ -27,6 +27,7 @@ if (!isset($_SESSION["cart"])) {
 <body>
     <header>
         <img src="img/logo2.png" height="50px" alt="logo2">
+         <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
