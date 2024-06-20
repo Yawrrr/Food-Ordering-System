@@ -23,15 +23,15 @@ $orders_result = $conn->query("SELECT COUNT(*) AS totalOrders FROM orders");
 $totalOrders = $orders_result->fetch_assoc()['totalOrders'];
 
 // Get the number of processing orders from the orders table where status is 'pending'
-$processing_orders_result = $conn->query("SELECT COUNT(*) AS processingOrders FROM orders WHERE status='pending'");
+$processing_orders_result = $conn->query("SELECT COUNT(*) AS processingOrders FROM orders WHERE status='Processing'");
 $processingOrders = $processing_orders_result->fetch_assoc()['processingOrders'];
 
 // Get the number of served orders from the orders table where status is 'served'
-$served_orders_result = $conn->query("SELECT COUNT(*) AS servedOrders FROM orders WHERE status='served'");
+$served_orders_result = $conn->query("SELECT COUNT(*) AS servedOrders FROM orders WHERE status='Served'");
 $servedOrders = $served_orders_result->fetch_assoc()['servedOrders'];
 
 // Get the number of cancelled orders from the orders table where status is 'cancelled'
-$cancelled_orders_result = $conn->query("SELECT COUNT(*) AS cancelledOrders FROM orders WHERE status='cancelled'");
+$cancelled_orders_result = $conn->query("SELECT COUNT(*) AS cancelledOrders FROM orders WHERE status='Cancelled'");
 $cancelledOrders = $cancelled_orders_result->fetch_assoc()['cancelledOrders'];
 ?>
 
