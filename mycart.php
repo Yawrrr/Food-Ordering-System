@@ -3,6 +3,7 @@
 <?php
 require_once("connection.php");
 session_start();
+
 // Check for order success message
 if (isset($_SESSION['order_success'])) {
     echo "<script>alert('" . $_SESSION['order_success'] . "');</script>";
@@ -15,6 +16,22 @@ if (isset($_SESSION['order_error'])) {
     unset($_SESSION['order_error']); // Clear error message
 }
 
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    echo "You must be logged in to place an order.";
+    header("Location: login.php");
+    exit();
+}
+
+// Fetch the username from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT username FROM user WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->bind_result($username);
+$stmt->fetch();
+$stmt->close();
 ?>
 <head>
     <meta charset="UTF-8">
@@ -25,13 +42,13 @@ if (isset($_SESSION['order_error'])) {
 </head>
 <body>
     <header>
-    <img src="img/logo2.png" height="50px" alt="logo2">
+        <img src="img/logo2.png" height="50px" alt="logo2">
+        <div class="welcome-message">Welcome, <?php echo htmlspecialchars($username); ?>!</div>
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
             <a href="myOrder.php">My Orders</a>
             <a href="logout.php">Logout</a>
-
         </nav>
         <div class="profile-icon" alt="Profile">👤</div>
     </header>
@@ -53,16 +70,19 @@ if (isset($_SESSION['order_error'])) {
                     $sql = "SELECT uc.menu_items_id, uc.quantity, mi.name, mi.price, mi.image 
                             FROM user_cart_items uc
                             JOIN menu_items mi ON uc.menu_items_id = mi.id
-                            WHERE uc.user_id = $user_id";
-                    $result = $conn->query($sql);
+                            WHERE uc.user_id = ?";
+                    $stmt = $conn->prepare($sql);
+                    $stmt->bind_param("i", $user_id);
+                    $stmt->execute();
+                    $result = $stmt->get_result();
 
                     if ($result->num_rows > 0) {
                         while ($row = $result->fetch_assoc()) { ?>
                             <tr>
                                 <td>
                                     <div style="display: flex; align-items: center;">
-                                        <img src="img/foodmenu/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="50" style="margin-right: 10px;">
-                                        <div><?php echo $row['name']; ?></div>
+                                        <img src="img/foodmenu/<?php echo htmlspecialchars($row['image']); ?>" alt="<?php echo htmlspecialchars($row['name']); ?>" width="50" style="margin-right: 10px;">
+                                        <div><?php echo htmlspecialchars($row['name']); ?></div>
                                     </div>
                                 </td>
                                 <td class="price">RM<?php echo number_format($row['price'], 2); ?></td>
@@ -72,6 +92,7 @@ if (isset($_SESSION['order_error'])) {
                         <?php }} else { ?>
                             <tr><td colspan='4'>Your cart is empty.</td></tr>
                         <?php }
+                    $stmt->close();
                     ?>
                 </tbody>
             </table>
