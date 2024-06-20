@@ -8,6 +8,7 @@ session_start();
 if (!isset($_SESSION['user_id'])) {
     echo "You must be logged in to place an order.";
     header("Location: login.php");
+    exit();
 }
 
 // new session, check whether got set session cart, if no, create new session cart
@@ -15,6 +16,15 @@ if (!isset($_SESSION["cart"])) {
     $_SESSION["cart"] = [];
 }
 
+// Fetch the username from the database
+$user_id = $_SESSION['user_id'];
+$sql = "SELECT username FROM user WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->bind_result($username);
+$stmt->fetch();
+$stmt->close();
 ?>
 <head>
     <meta charset="UTF-8">
@@ -22,12 +32,11 @@ if (!isset($_SESSION["cart"])) {
     <title>Food Menu</title>
     <link rel="stylesheet" href="css/foodmenu_style.css">
     <link rel="stylesheet" href="css/main.css">
-
 </head>
 <body>
     <header>
         <img src="img/logo2.png" height="50px" alt="logo2">
-         <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
+        <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
         <nav>
             <a href="foodmenu.php">Food Menu</a>
             <a href="mycart.php">Cart</a>
