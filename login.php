@@ -17,7 +17,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     $_SESSION['user_id'] = $row['id'];
 
     if($row['role'] == 'admin') {
-      header("Location: admin/add_fooditem.php");
+      header("Location: admin/dashboard.php");
       exit(); // Make sure to exit after the header redirection
     } elseif($row['role'] == 'user'){
       header("Location: foodmenu.php");
