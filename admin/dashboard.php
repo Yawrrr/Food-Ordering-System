@@ -14,9 +14,9 @@ if (!isset($_SESSION['user_id'])) {
 $dishes_result = $conn->query("SELECT COUNT(*) AS totalDishes FROM menu_items");
 $totalDishes = $dishes_result->fetch_assoc()['totalDishes'];
 
-// Get the number of users from the user table
-$users_result = $conn->query("SELECT COUNT(*) AS totalUsers FROM user");
-$totalUsers = $users_result->fetch_assoc()['totalUsers'];
+// Get the number of customers from the user table
+$users_result = $conn->query("SELECT COUNT(*) AS totalCustomers FROM user WHERE role <> 'admin'");
+$totalCustomers = $users_result->fetch_assoc()['totalCustomers'];
 
 // Get the number of orders from the orders table
 $orders_result = $conn->query("SELECT COUNT(*) AS totalOrders FROM orders");
@@ -68,9 +68,9 @@ $cancelledOrders = $cancelled_orders_result->fetch_assoc()['cancelledOrders'];
                 <p>Dishes</p>
             </div>
             <div class="card">
-                <img src="../img/dashboard/user.png" alt="Users">
-                <h3><?php echo $totalUsers; ?></h3>
-                <p>Users</p>
+                <img src="../img/dashboard/user.png" alt="Customers">
+                <h3><?php echo $totalCustomers; ?></h3>
+                <p>Customers</p>
             </div>
         </div>
         <div class="dashboard-cards-secondrow">
@@ -92,8 +92,5 @@ $cancelledOrders = $cancelled_orders_result->fetch_assoc()['cancelledOrders'];
         </div>
     </div>
 </div>
-    <footer class="footer">
-        <p>&copy; 2024. All rights reserved.</p>
-    </footer>
 </body>
 </html>
