@@ -9,6 +9,15 @@ if (!isset($_SESSION['user_id'])) {
 
 $user_id = $_SESSION['user_id'];
 
+// Fetch the username from the database
+$sql = "SELECT username FROM user WHERE id = ?";
+$stmt = $conn->prepare($sql);
+$stmt->bind_param("i", $user_id);
+$stmt->execute();
+$stmt->bind_result($username);
+$stmt->fetch();
+$stmt->close();
+
 $sql = "SELECT item, quantity, price, date, status 
         FROM orders 
         WHERE user_id = ?
@@ -37,14 +46,14 @@ while ($row = $result->fetch_assoc()) {
 <body>
 <header>
     <img src="img/logo2.png" height="50px" alt="logo2">
-        <nav>
-            <a href="foodmenu.php">Food Menu</a>
-            <a href="mycart.php">Cart</a>
-            <a href="myOrder.php">My Orders</a>
-            <a href="logout.php">Logout</a>
-
-        </nav>
-        <div class="profile-icon" alt="Profile">👤</div>
+    <div class="welcome-message">Welcome, <?php echo $username; ?>!</div>
+    <nav>
+        <a href="foodmenu.php">Food Menu</a>
+        <a href="mycart.php">Cart</a>
+        <a href="myOrder.php">My Orders</a>
+        <a href="logout.php">Logout</a>
+    </nav>
+    <div class="profile-icon" alt="Profile">👤</div>
 </header>
 
 <main class="main-content">
@@ -68,11 +77,11 @@ while ($row = $result->fetch_assoc()) {
                             $subtotal += $order['price'] * $order['quantity'];
                         } ?>
                         <tr>
-                            <td><?php echo $order['item']; ?></td>
-                            <td><?php echo $order['quantity']; ?></td>
+                            <td><?php echo htmlspecialchars($order['item']); ?></td>
+                            <td><?php echo htmlspecialchars($order['quantity']); ?></td>
                             <td>RM<?php echo number_format($order['price'], 2); ?></td>
-                            <td><?php echo $order['date']; ?></td>
-                            <td><?php echo $order['status']; ?></td>
+                            <td><?php echo htmlspecialchars($order['date']); ?></td>
+                            <td><?php echo htmlspecialchars($order['status']); ?></td>
                         </tr>
                     <?php } ?>
                 </tbody>
