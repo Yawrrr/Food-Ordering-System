@@ -17,6 +17,11 @@ CREATE TABLE user (
 INSERT INTO user (role, username, f_name, l_name, email, phone, password, address)
 VALUES ('admin', '6Gadmin', 'Jocelyn', 'Aslan', 'admin@gmail.com', '1234567890', '1234', 'M01, KTDI, 80990, Johor Bahru, Johor');
 
+INSERT INTO user (role, username, f_name, l_name, email, phone, password, address)
+VALUES ('user', 'yunxi', 'Yun Xi', 'Tan', 'yunxi@gmail.com', '0108108857', '123456', '6, Melaka.');
+
+INSERT INTO user (role, username, f_name, l_name, email, phone, password, address)
+VALUES ('user', 'ivlyntay', 'Ivlyn Tay', 'Wan Rou', 'ivlyntay@yahoo.com', '01110746482', '123456', 'M01, KTDI, 80990, Johor Bahru, Johor');
 CREATE TABLE menu_items (
     id INT AUTO_INCREMENT PRIMARY KEY,
     category VARCHAR(50),
