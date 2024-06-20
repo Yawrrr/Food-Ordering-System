@@ -145,6 +145,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST")
         </div>
        </div>
       </div>
+      <a href="user_management.php" class="return-to-user">← Return to User Management</a>
     </div>
 </body>
 </html>
