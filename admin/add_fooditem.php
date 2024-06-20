@@ -51,7 +51,7 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
 <header>
         <img src="../img/logo2.png" height="50px" alt="logo2">
         <nav>
-            <a href="">DASHBOARD</a>
+            <a href="dashboard.php">DASHBOARD</a>
             <a href="user_management.php">USER</a>
             <a href="add_fooditem.php">FOOD</a>
             <a href="all_order.php">ORDER</a>
