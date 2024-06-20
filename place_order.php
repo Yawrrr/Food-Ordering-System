@@ -11,7 +11,7 @@ $user_id = $_SESSION['user_id'];
 
 // Example SQL to insert into orders table
 $insertOrder = "INSERT INTO orders (item, quantity, price, date, status, user_id) 
-                SELECT mi.name, uc.quantity, mi.price, NOW(), 'Pending', uc.user_id 
+                SELECT mi.name, uc.quantity, mi.price, NOW(), 'Processing', uc.user_id 
                 FROM user_cart_items uc
                 JOIN menu_items mi ON uc.menu_items_id = mi.id
                 WHERE uc.user_id = ?";
