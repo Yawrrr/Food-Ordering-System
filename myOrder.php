@@ -64,7 +64,9 @@ while ($row = $result->fetch_assoc()) {
                 </thead>
                 <tbody>
                     <?php foreach ($orderGroup as $order) { 
-                        $subtotal += $order['price'] * $order['quantity']; ?>
+                        if ($order['status'] !== 'Cancelled') {
+                            $subtotal += $order['price'] * $order['quantity'];
+                        } ?>
                         <tr>
                             <td><?php echo $order['item']; ?></td>
                             <td><?php echo $order['quantity']; ?></td>
