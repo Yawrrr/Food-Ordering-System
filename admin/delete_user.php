@@ -1,9 +1,22 @@
 <?php
 include("../connection.php");
-error_reporting(0);
 session_start();
 
-mysqli_query($conn,"DELETE FROM user WHERE id = '".$_GET['uid']."'");
-header("location:user_management.php");  
+// Check if user is logged in
+if (!isset($_SESSION['user_id'])) {
+    header("Location: ../login.php");
+    exit();
+}
 
+// Prepare and execute the delete query
+if (isset($_GET['uid'])) {
+    $user_id = $_GET['uid'];
+    $stmt = $conn->prepare("DELETE FROM user WHERE id = ?");
+    $stmt->bind_param("i", $user_id);
+    $stmt->execute();
+    $stmt->close();
+}
+
+header("Location: user_management.php");
+exit();
 ?>
