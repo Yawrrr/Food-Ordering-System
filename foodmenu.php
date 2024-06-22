@@ -32,6 +32,7 @@ $stmt->close();
     <title>Food Menu</title>
     <link rel="stylesheet" href="css/foodmenu_style.css">
     <link rel="stylesheet" href="css/main.css">
+
 </head>
 <body>
     <header>
