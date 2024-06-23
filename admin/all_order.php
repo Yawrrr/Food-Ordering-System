@@ -29,7 +29,7 @@ if (!$menu_items) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>All Orders</title>
     <link rel="stylesheet" href="../css/add_food.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/admin_main.css">
 </head>
 <header>
     <img src="../img/logo2.png" height="50px" alt="logo2">
@@ -40,7 +40,6 @@ if (!$menu_items) {
         <a href="all_order.php">ORDER</a>
         <a href="../logout.php">Logout</a>
     </nav>
-    <div class="profile-icon" alt="Profile">👤</div>
 </header>
 <body>
     <div class="container">
