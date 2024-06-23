@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <option value="Cancelled" <?php if ($order['status'] == 'Cancelled') echo 'selected'; ?>>Cancelled</option>
             </select>
 
-            <input type="submit" value="Update Menu Item">
+            <input type="submit" value="Update Order">
         </form>
         <a href="all_order.php">Return to All Orders</a>
     </div>
