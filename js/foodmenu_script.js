@@ -1,11 +1,8 @@
 var modal = document.getElementById("item-modal");
+var itemModal = document.getElementById("item-modal");
 var categoryButtons = document.querySelectorAll(".category-button");
 var menuItemsContainer = document.getElementById("menu-items");
 var priceSortSelect = document.getElementById("price-sort");
-// let cartItems = [];
-// let cartItems = JSON.parse('<?php echo json_encode($_SESSION["cart"]); ?>');
-// let cartItems = JSON.parse('<?php echo json_encode($_SESSION["cart"]); ?>');
-let cartItems = '<?php echo $_SESSION["cart"];?>';
 
 // Function to filter menu items by category
 function filterMenuItems(category) {
@@ -31,40 +28,30 @@ categoryButtons.forEach(button => {
     });
 });
 
-function openModal(id){
-    modal.style.display = "block";
-    console.log(id)
+if (itemModal) {
+    itemModal.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget
 
-    var menuItem = document.getElementById(`menu-item-${id}`);
-    // var menuItem = document.querySelector(`[menu-item="${id}"]`);
+        const menuItemId = button.getAttribute('data-item-id')
 
-    document.getElementById("modal-item-name").textContent = menuItem.getElementsByClassName('item-name')[0].innerHTML;
-    document.getElementById("modal-item-price").textContent = `RM ${menuItem.getAttribute('data-price')}`;
-    document.getElementById("modal-item-description").textContent = menuItem.getElementsByClassName('item-description')[0].innerHTML;
-    document.getElementById("modal-item-image").src = menuItem.getElementsByClassName('item-image')[0].getAttribute('src');
+        var menuItem = document.getElementById(`menu-item-${menuItemId}`);
+        document.getElementById("modal-item-name").textContent = menuItem.getElementsByClassName('item-name')[0].innerHTML;
+        document.getElementById("modal-item-price").textContent = `RM ${menuItem.getAttribute('data-price')}`;
+        document.getElementById("modal-item-description").textContent = menuItem.getElementsByClassName('item-description')[0].innerHTML;
+        document.getElementById("modal-item-image").src = menuItem.getElementsByClassName('item-image')[0].getAttribute('src');
 
-    // Set initial quantity value
-    const quantityInput = document.getElementById("quantity");
-    quantityInput.value = "1";
+        // Set initial quantity value
+        const quantityInput = document.getElementById("quantity");
+        quantityInput.value = "1";
 
-    // Update add to cart button action
-    const addToCartModalBtn = document.getElementById("confirm-modal");
-    addToCartModalBtn.onclick = () => {
-        addToCart(id, quantityInput.value);
-        closeModal();
-    };
-}
-
-// Function to add item to cart
-// function addToCart(itemId, quantity) {
-//     const existingItemIndex = cartItems.findIndex(cartItem => cartItem.itemId === itemId);
-//     if (existingItemIndex !== -1) {
-//         cartItems[existingItemIndex].quantity += parseInt(quantity, 10);
-//     } else {
-//         cartItems.push({ itemId: itemId, quantity: parseInt(quantity, 10) });
-//     }
-//     console.log("Cart items:", cartItems);
-// }
+        // Update add to cart button action
+        const addToCartModalBtn = document.getElementById("confirm-modal");
+        addToCartModalBtn.onclick = () => {
+           addToCart(menuItemId, quantityInput.value);
+        };
+    })
+  }
 
 function addToCart(itemId, quantity) {
 
@@ -87,21 +74,6 @@ function addToCart(itemId, quantity) {
 
     // Send data
     xhr.send(data);
-}
-
-// Event listener to close the modal when clicking on the close button
-document.getElementsByClassName("close-modal")[0].addEventListener("click", closeModal);
-
-// Event listener to close the modal when clicking outside of it
-window.addEventListener("click", (event) => {
-    if (event.target === modal) {
-        closeModal();
-    }
-});
-
-// Function to close the modal
-function closeModal() {
-    modal.style.display = "none";
 }
 
 // Event listeners for quantity buttons
