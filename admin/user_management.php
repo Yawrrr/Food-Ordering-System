@@ -14,7 +14,7 @@ include("../connection.php");
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
   <link rel="stylesheet" href="../css/add_food.css">
-  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/admin_main.css">
 </head>
 <body>
   <header>
@@ -26,7 +26,6 @@ include("../connection.php");
         <a href="all_order.php">ORDER</a>
         <a href="../logout.php">Logout</a>
     </nav>
-    <div class="profile-icon" alt="Profile">👤</div>
   </header>
   <div class="page-wrapper">
   <div class="container-fluid">
