@@ -46,7 +46,7 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add Menu Item</title>
     <link rel="stylesheet" href="../css/add_food.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/admin_main.css">
 </head>
 <header>
         <img src="../img/logo2.png" height="50px" alt="logo2">
@@ -57,7 +57,6 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
             <a href="all_order.php">ORDER</a>
             <a href="../logout.php">Logout</a>
         </nav>
-        <div class="profile-icon" alt="Profile">👤</div>
     </header>
 <body>
     <div class="container">
@@ -106,7 +105,7 @@ $menu_items = $conn->query("SELECT * FROM menu_items");
                         <td><?php echo $row['category']; ?></td>
                         <td><?php echo $row['name']; ?></td>
                         <td><?php echo $row['price']; ?></td>
-                        <td><img src="../img/foodmenu/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="50"></td>
+                        <td><img src="../img/foodmenu/<?php echo $row['image']; ?>" alt="<?php echo $row['name']; ?>" width="50" class="add-food-img"></td>
                         <td><?php echo $row['description']; ?></td>
                         <td>
                             <a href="edit_menu.php?id=<?php echo $row['id']; ?>">Edit</a> |
