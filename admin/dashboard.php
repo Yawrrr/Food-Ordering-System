@@ -43,7 +43,7 @@ $cancelledOrders = $cancelled_orders_result->fetch_assoc()['cancelledOrders'];
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="../css/add_food.css">
-    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/admin_main.css">
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
 <header>
@@ -55,7 +55,6 @@ $cancelledOrders = $cancelled_orders_result->fetch_assoc()['cancelledOrders'];
         <a href="all_order.php">ORDER</a>
         <a href="../logout.php">Logout</a>
     </nav>
-    <div class="profile-icon" alt="Profile">👤</div>
 </header>
 <body>
 <div class="container">
