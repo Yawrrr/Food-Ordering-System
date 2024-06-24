@@ -21,9 +21,9 @@ if (isset($_GET['id'])) {
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
     }
+   
+    header("Location: all_order.php");
 
-    // Redirect back to the add_fooditem.php page
-    header("Location: add_fooditem.php");
     exit();
 } else {
     echo "No menu item ID provided.";
