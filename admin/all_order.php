@@ -13,7 +13,8 @@ if (!isset($_SESSION['user_id'])) {
 $menu_items = $conn->query("
     SELECT o.id, u.username, o.item, o.quantity, o.price, o.status, o.date
     FROM orders o
-    JOIN user u ON o.user_id = u.id"
+    JOIN user u ON o.user_id = u.id
+    ORDER BY o.date DESC"
 );
 
 if (!$menu_items) {
